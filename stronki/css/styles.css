@@ -27,13 +27,24 @@ body, html {
     margin: 0 auto;
   }
 
+  header{
+    padding-top: 300px
+  }
+
+  header h1 {
+    font-size: 55px; 
+  }
+
   header h2 {
     font-size: 35px; 
+  }
+  header h3 {
+    font-size: 28px; 
   }
   
   nav {
     padding:0;
-    background: rgba(95, 95, 95, 0.86);
+    background: rgba(60, 77, 77, 0.86);
   } 
 
   header ul {
@@ -53,7 +64,7 @@ body, html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    opacity: 0.5;
+    /* opacity: 0.5; */
   }
   
   nav li {
@@ -68,10 +79,13 @@ body, html {
     text-align: center;
     padding: 16px;
     text-decoration: none;
+    opacity: 0.5;
   }
   
   nav li a:hover {
     background-color: #111111;
+    color: white;
+    opacity: 0.8;
   }
 
   article {
@@ -80,7 +94,7 @@ body, html {
     width: 100%;
     background-color: #f1f1f1;
   }
-  
+
   /* Clear floats after the columns */
   section:after {
     content: "";
@@ -90,7 +104,7 @@ body, html {
   
   /* Style the footer */
   footer {
-    background-color: #777;
+    background-color: rgb(6, 43, 68);
     padding: 10px;
     text-align: center;
     color: white;
@@ -119,26 +133,21 @@ body, html {
  }
 
  .about{
-   height: 300px
+   height: 400px;
+   margin-top: 50px;
  }
 
-  .grid-item {
-      
-      /* margin: 5px; */
-      /* border: solid;
-      border-width: 1px;
-      border-radius: 10px;
-      background-color: darkorange; */
-  }
+ .about h2{
+   font-size: 28px;
+ }
 
-  .node-title{
+ .p-4{
+   padding: 12px;
+ }
 
-  }
-
-  .node-content{
-    padding: 0 10px 10px 10px;
-    background-color: darkmagenta;
-  }
+ .m-4{
+   margin: 16px;
+ }
 
   .grid-item h1 {
     text-align: center;
@@ -153,8 +162,10 @@ body, html {
     background-image: url("../img/top-view-photo-of-beach-3693581.jpg");
   
     /* Full height */
-    height: 100%; 
-  
+    /* height: 100%;  */
+    height: auto !important;
+    min-height: 100%;
+    
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
@@ -162,8 +173,6 @@ body, html {
 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
-  
-
 
   /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
   @media (max-width: 600px) {
@@ -172,3 +181,54 @@ body, html {
       height: auto;
     }
   }
+
+  .callToActionButton {
+    background: rgba(97, 48, 0, 0.8);
+    color: white;
+    border-color: rgb(255, 170, 128);
+    border-width: 2px;
+    margin: 0 15px;
+}
+
+
+@media(max-width:767px){
+    .callToActionButton {
+        margin: 10px 0;
+    }
+}
+
+.textBg {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+ }
+
+.textBgRoll {
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+.textBgOther {
+    background: #222;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+.textBgOther a {
+    background: #222;
+}
+
+.text-white{
+  color: white;
+}
+
+.vertical-center {
+  margin: 0;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.mt-h{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
