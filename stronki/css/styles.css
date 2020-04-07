@@ -182,7 +182,7 @@ footer {
   background-image: url("../img/top-view-photo-of-beach-3693581_c6c4a4768699f276dfb5c75e4577fb37.jpg");
   /* Full height */
   /* height: 100%;  */
-  height: auto important;
+  height: auto !important;
   min-height: 100%;
   /* Center and scale the image nicely */
   background-position: center;
