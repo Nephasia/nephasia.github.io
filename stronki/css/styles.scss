@@ -1,0 +1,278 @@
+
+$headerMinimum : 7px;
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+  
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  /* background-color: #61210F; */
+}
+
+.container {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.onePage{
+  display: none;
+}
+
+.onePageActive{
+  display: inline;
+}
+
+header{
+    
+    padding-top: 300px;
+    
+    h1 {
+        font-size: $headerMinimum * 8; 
+    }
+    h2 {
+        font-size: $headerMinimum * 5; 
+    }
+    h3 {
+        font-size: $headerMinimum * 4; 
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+nav {
+  padding:0;
+  background: rgba(60, 77, 77, 0.86);
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* opacity: 0.5; */
+
+    li {
+        float: left;
+        list-style-type: none;
+        padding: 0;
+    }
+
+  }
+  
+  li {
+    float: left;
+
+    a, p {
+        margin: 0;
+        padding: 0;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 16px;
+        text-decoration: none;
+        opacity: 0.5;
+      }
+      
+      a:hover {
+        background-color: #111111;
+        color: white;
+        opacity: 0.8;
+      }
+
+  }
+
+} 
+
+article {
+  float: left;
+  padding: 20px;
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+/* Clear floats after the columns */
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.content {
+  min-height: 100%;
+
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+  margin-bottom: -50px;
+}
+footer,
+.push {
+  height: 50px;
+}
+
+footer {
+  background-color: rgb(6, 43, 68);
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+.grid-6 {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+
+.grid-3-elements {
+  display: grid;
+
+  /* define the number of grid columns */
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.about{
+  height: 440px;
+  margin-top: 50px;
+}
+
+.p-4{
+  padding: 12px;
+}
+
+.m-4{
+  margin: 16px;
+}
+
+.grid-item{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.grid-item h1 {
+  text-align: center;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("../img/top-view-photo-of-beach-3693581_c6c4a4768699f276dfb5c75e4577fb37.jpg");
+
+  /* Full height */
+  /* height: 100%;  */
+  height: auto important;
+  min-height: 100%;
+  
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 640px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+
+  .grid-3-elements {
+    display: grid;
+  
+    /* define the number of grid columns */
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 480px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+
+  .grid-3-elements {
+    display: grid;
+  
+    /* define the number of grid columns */
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+}
+
+.callToActionButton {
+  background: rgba(97, 48, 0, 0.8);
+  color: white;
+  border-color: rgb(255, 170, 128);
+  border-width: 2px;
+  margin: 0 15px;
+}
+
+@media(max-width:767px){
+    .callToActionButton {
+        margin: 10px 0;
+    }
+}
+
+@mixin boxshadow{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+.textBg {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  @include boxshadow();
+ }
+
+.textBgRoll {
+  background: rgba(0, 0, 0, 0.7);
+  @include boxshadow();
+}
+
+.textBgOther {
+  background: #222;
+  @include boxshadow();
+
+  a {
+    background: #222;
+  }
+
+}
+
+.text-white{
+  color: white;
+}
+
+.vertical-center {
+  margin: 0;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.mt-h{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}

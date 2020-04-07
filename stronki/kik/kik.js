@@ -48,7 +48,8 @@ function checkIfWon(character){
 
 function setPlayAgain(message){
     document.getElementById("whoWon").innerHTML = message;
-    document.getElementById("reload").innerHTML = "<button onClick=\"window.location.reload();\">Play again !</button>"
+    document.getElementById("reload").innerHTML = "<button onClick=\"window.location.reload();switchContent(1);\">Go to main menu !</button>"
+    
 }
 
 const winSequences = [

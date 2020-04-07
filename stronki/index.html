@@ -11,83 +11,116 @@
   <link rel="stylesheet" href="css/styles.css">
   <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"> -->
 
+  <link rel="stylesheet" href="../kik/styles.css">
+
 </head>
-
 <body>
-  <div class="bg">
-      <nav>
+    <script src="js/script.js"></script>
+    <nav>
         <div class="container">
-          <ul>
-            <li><p>MyPage</p></li>
-            <li><a href="#">home</a></li>
-            <li><a href="#">news</a></li>
-            <li><a href="#">contact</a></li>
-            <li><a href="kik/index.html">tic tac toe game</a></li>
+            <ul>
+                <li><p>MyPage</p></li>
+                <li><a onclick="switchContent(0)">home</a></li>
+                <li><a onclick="switchContent(1)">tic tac toe game</a></li>
             
-          </ul>
+            </ul>
         </div>
-      </nav>
+    </nav>
 
-      <!-- Header -->
-      <header>
-          <div class="container ">
-              <div class=" text-center">
-                  <div class="textBg">
-                      <div class="intro-lead-in pt-5 text-white"><h1>Hello to my page</h1></div>
-                      <div class="intro-heading text-white"><h3>I am glad you are here :)</h3></div>
-                  </div>
-                  
-              </div>
-          </div>
-      </header>
-      
-  </div>
-  <section class="about">
-    <div class="container">
-          <div class="text-center mt-h">
-              <div class="section-title">
-                  <h2>The title</h2>
-                  <p class="m-4 p-4">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                  </p>
-                  <p>
-                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  </p>
+    <div class="home onePage onePageActive">
 
-              </div>
-          </div>
+        <div class="bg">
+            <header>
+                <div class="text-center">
+                    <div class="textBg">
+                        <div class="intro-lead-in pt-5 text-white"><h1>Hello to my page</h1></div>
+                        <div class="intro-heading text-white"><h3>I am glad you are here :)</h3></div>
+                    </div>
+                    
+                </div>
+            </header>
+        </div>
 
-      <hr>
+    <section class="about">
+        <div class="container">
+            <div class="text-center mt-h">
+                <div class="section-title">
+                    <h2>The title</h2>
+                    <p class="m-4 p-4">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                    </p>
+                    <p>
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
 
-        <div class="grid-3-elements mt-h">
-
-          <div class="grid-item text-center">
-              <div class="">
-                  <!-- <i class="fa fa-university ot-circle"></i> -->
-                  <h3>Title 1</h3>
-                  <p>Short description 1 here</p>
-              </div>
+                </div>
             </div>
 
-            <div class="grid-item text-center">
-              <div class="">
-                  <!-- <i class="fa fa-desktop ot-circle"></i> -->
-                  <h3>Title 2</h3>
-                  <p>Short description 2 here but little longer than in 1</p>
-              </div>
-            </div>
+        <hr>
 
-            <div class="grid-item text-center">
-              <div class="">
-                  <!-- <i class="fas fa-cogs ot-circle"></i> -->
-                  <h3>Title 3</h3>
-                  <p>The shortest</p>
-              </div>
+            <div class="grid-3-elements mt-h">
+                <div class="grid-item text-center">
+                    <div class="">
+                        <!-- <i class="fa fa-university ot-circle"></i> -->
+                        <h3>Title 1</h3>
+                        <p>Short description 1 here</p>
+                    </div>
+                </div>
+
+                <div class="grid-item text-center">
+                    <div class="">
+                        <!-- <i class="fa fa-desktop ot-circle"></i> -->
+                        <h3>Title 2</h3>
+                        <p>Short description 2 here but little longer than in 1</p>
+                    </div>
+                </div>
+
+                <div class="grid-item text-center">
+                    <div class="">
+                        <!-- <i class="fas fa-cogs ot-circle"></i> -->
+                        <h3>Title 3</h3>
+                        <p>The shortest</p>
+                    </div>
+                </div>
             </div>
         </div>
+        <!-- /.container -->
+    </section>
     </div>
-    <!-- /.container -->
-  </section>
+
+    <div class="kik onePage">
+
+            <div class="text-center p-4">
+                    <h1>Tic tac toe game</h1>
+                  </div>
+                
+                <div class="grid kik-container">
+                  <div class="grid-3-elements-kik">
+                    <div class="cell" id="cell_0">_</div>
+                    <div class="cell" id="cell_1">_</div>
+                    <div class="cell" id="cell_2">_</div>
+                  </div>
+                  <div class="grid-3-elements-kik">
+                  <div class="cell" id="cell_3">_</div>
+                  <div class="cell" id="cell_4">_</div>
+                  <div class="cell" id="cell_5">_</div>
+                </div>
+                  <div class="grid-3-elements-kik">
+                  <div class="cell" id="cell_6">_</div>
+                  <div class="cell" id="cell_7">_</div>
+                  <div class="cell" id="cell_8">_</div>
+                </div>
+                </div>
+                <div class="text-center m-4">
+                  <div><h1 id="whoWon"></h1></div>
+                  <div id="reload"></div>
+                </div>
+                
+                <script src="kik/kik.js"></script>
+
+
+    </div>
+    <div class="push"></div>
 
     <footer>
      <div class="container">
@@ -97,6 +130,6 @@
   </footer>
 
 
-  <!-- <script src="js/scripts.js"></script> -->
+
 </body>
 </html>
