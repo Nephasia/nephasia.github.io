@@ -6,24 +6,24 @@
     </fb:login-button>
 
     <script>
-            
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+
+            FB.api('/me', function(response) {
+                console.log(JSON.stringify(response));
+            });
+        }
+
         window.fbAsyncInit = function() {
           FB.init({
             appId      : '367597117506011',
             xfbml      : true,
             version    : 'v3.1'
           });
-    
-          FB.api('/me', function(response) {
-                console.log(JSON.stringify(response));
-            });
+          
         };
-
-        function checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
-        }
             
         (function(d, s, id){
           var js, fjs = d.getElementsByTagName(s)[0];
