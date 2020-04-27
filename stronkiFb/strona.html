@@ -12,29 +12,24 @@
             FB.getLoginStatus(function(response) {
                 statusChangeCallback(response);
             });
-
         }
 
         function statusChangeCallback(response) {
-                console.log('statusChangeCallback');
-                console.log(response);
-                if (response.status === 'connected') {
-                    console.log('Welcome!  Fetching your information.... ');
-                    FB.api('/me', function (response) {
-                        console.log('Successful login for: ' + response.name);
-                        document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
-                    });
-                } else {
-                    document.getElementById('status').innerHTML = 'Please log into this app.';
-                }
+            if (response.status === 'connected') {
+                FB.api('/me', function (response) {
+                    document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+                });
+            } else {
+                document.getElementById('status').innerHTML = 'Please log into this app.';
             }
+        }
 
         window.fbAsyncInit = function() {
-          FB.init({
-            appId      : '367597117506011',
-            xfbml      : true,
-            version    : 'v3.1'
-          });
+            FB.init({
+                appId      : '367597117506011',
+                xfbml      : true,
+                version    : 'v5.0'
+            });
           
         };
             
