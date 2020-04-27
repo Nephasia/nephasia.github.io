@@ -6,10 +6,7 @@
     </fb:login-button>
 
     <script>
-        function init() {
             
-        }
-    
         window.fbAsyncInit = function() {
           FB.init({
             appId      : '367597117506011',
@@ -21,7 +18,13 @@
                 console.log(JSON.stringify(response));
             });
         };
-    
+
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
+            
         (function(d, s, id){
           var js, fjs = d.getElementsByTagName(s)[0];
           if (d.getElementById(id)) {return;}
