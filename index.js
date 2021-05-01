@@ -90,7 +90,7 @@ function createChart(labels, data1, data2){
                     'rgba(99, 255, 132, 0.2)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)'
+                    'rgba(99, 255, 132, 1)'
                 ],
                 borderWidth: 1
             }]
