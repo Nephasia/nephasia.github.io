@@ -1,0 +1,116 @@
+<html>
+	<head>
+		<style>
+			body{
+				background-color: rgb(255,255,255);
+			}
+		</style>
+	</head>
+<body>
+	<div id="links"></div>
+	<h1 id="title"></h1>
+	<div id="mychartcontainer">
+		
+	</div>
+	<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+	
+
+	<script type="text/javascript">
+
+		$(function(){
+            console.log('test')
+		
+			Chart.defaults.global.responsive = true;
+			Chart.defaults.global.maintainAspectRatio = false;
+			$("#links").on("click", "a", function(){
+				var file = $(this).data("file");
+				
+                console.log(file)
+
+				var myColors=[];
+				var myColorsBorders=[];
+
+				$("#title").html(file);
+				$.getJSON("../temp/data/" + file, function(response){
+				
+					$("#mychart").remove();
+					$("#mychartcontainer").append("<canvas id=\"mychart\" width=\"100%\" height=\"400\"></canvas>")
+					
+					$.each(response.data.datasets[0].data, function( index,value ) {
+						if(value > 30){
+							myColors[index]="rgba(255, 0, 0, 0.7)";
+							myColorsBorders[index]="rgba(200, 0, 0, 1)";
+						} else if (between(value, 28, 30)){
+							myColors[index]="rgba(255, 180, 0, 0.7)";
+							myColorsBorders[index]="rgba(200, 180, 0, 1)";
+						} else if (between(value, 25, 28)){
+							myColors[index]="rgba(255, 255, 0, 0.7)";
+							myColorsBorders[index]="rgba(200, 200, 0, 1)";
+						} else if (between(value, 22, 25)){
+							myColors[index]="rgba(180, 255, 0, 0.7)";
+							myColorsBorders[index]="rgba(180, 200, 0, 1)";
+						} else if (between(value, 18, 22)){
+							myColors[index]="rgba(0, 255, 150, 0.7)";
+							myColorsBorders[index]="rgba(0, 200, 150, 1)";
+						} else if (between(value, 14, 18)){
+							myColors[index]="rgba(0, 255, 255, 0.7)";
+							myColorsBorders[index]="rgba(0, 200, 200, 1)";
+						} else if (value < 14){
+							myColors[index]="rgba(0, 50, 255, 0.7)";
+							myColorsBorders[index]="rgba(0, 50, 200, 1)";
+						}
+					});
+
+					var ctx = document.getElementById("mychart").getContext("2d");
+					var myLineChart = new Chart(ctx, {
+						type: 'line',
+						axisX:{
+							gridColor: "rgba(255,50,50,1)"
+						},
+						data: {
+							labels: response.data.labels,
+							datasets: [{
+							//	label : "My First dataset",
+								pointBackgroundColor : myColors,
+								pointBorderColor : myColorsBorders,
+								backgroundColor : "rgba(200,200,200,0.1)",//"rgba(220,220,220,0.2)",
+								data: response.data.datasets[0].data,
+							}]
+						},
+						options: {}
+					});//.Line(response.data);
+
+				});
+				
+			});
+			
+			// $.getJSON("../temp/logfiles", function(response){
+			// 	$(response).each(function(i,s){
+			// 		$("#links").append("<a href=\"javascript:void(0)\" data-file=" + s + ">" + s + "</a>&nbsp;");
+			// 		if(i%10 == 9) $("#links").append("<br>");
+			// 	});
+			// });
+			
+			
+		});
+
+		function between(x, min, max) {
+			return x >= min && x <= max;
+		}
+
+		function rgba2rgb(RGB_background, RGBA_color){
+			var alpha = RGBA_color.a;
+
+			return new Color(
+				(1 - alpha) * RGB_background.r + alpha * RGBA_color.r,
+				(1 - alpha) * RGB_background.g + alpha * RGBA_color.g,
+				(1 - alpha) * RGB_background.b + alpha * RGBA_color.b
+			);
+		}
+
+	</script>
+</body>
+</html>
+
