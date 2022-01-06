@@ -16,14 +16,57 @@ console.log(response)
 generateDayLinks(response);
 
 $(document).ready(function() {
+
+    createInformations()
+
     var latest = getLatestFile(response.data)
-    requestData(latest.name)
+    changeDate(latest)
 
 }, 'text');
 
+function changeDate(element){
+    requestData(element.name).then(response => {
+        let temperatureArray = response
+        console.log(response)
+        refreshInformations(element, temperatureArray)
+    })
+}
+
+async function createInformations(){
+    let div = document.createElement('div');
+    // div.classList.add('');
+    div.setAttribute("id", "fileName")
+    div.style.fontSize = "26px"
+    let text = document.createTextNode("");
+    div.appendChild(text);
+    document.getElementById("overChart").appendChild(div)
+}
+
+async function refreshInformations(viewedFile, tempArray){
+
+    let overChart = document.getElementById("overChart");
+
+    for (let i = 0; i < overChart.children.length; i++) {
+        
+        console.log(overChart.children[i].id)
+        if(overChart.children[i].id != null){
+            let textDiv = overChart.children[i]
+            textDiv.textContent = viewedFile.name.substring(0, 8)
+        }
+    }
+
+    // let max = Object.keys(tempArray).reduce(
+    //     (a,b) => tempArray[a]['temp'] > tempArray[b]['temp']?a:b
+    // )
+
+    // console.log(max)
+
+    console.log(tempArray)
+}
+
 async function generateDayLinks(response){
 
-    document.getElementById("links").innerHTML += "dates : <br>"
+    document.getElementById("links").innerHTML += "dates : <br> "
 
     console.log("available dates : " + response.data.length)
 
@@ -33,61 +76,57 @@ async function generateDayLinks(response){
         var linksText = `<span id="${element.name}">${dayName}</span>`;
     
         document.getElementById("links").innerHTML += linksText + " ";
-    
-        if(i + 1 % 10 == 0) document.getElementById("links").innerHTML += "<br>"
-    
     });
     
     await response.data.forEach(element => {
-    
-        document.getElementById(element.name).addEventListener("click", function(){
-            requestData(element.name);
+        document.getElementById(element.name).addEventListener("click", () => {
+            changeDate(element)
         }, true);
-    
     });
 }
 
-function requestData(fileName){
+async function requestData(fileName){
 
     if(typeof myChart !== "undefined"){
         myChart.destroy()
     }
 
     var url = repoUrl + fileName;
-    
-    $.get(url, function(data) { 
 
-        var splitted = data.split('\n').map(line => (line.charAt(line.length - 1) == "," ? line.slice(0, -1) : line ))
+    let data = await $.get(url);
 
-        var insideLogs = [];
-        var outsideLogs = [];
+    var splitted = data.split('\n').map(line => (line.charAt(line.length - 1) == "," ? line.slice(0, -1) : line ))
 
-        splitted.forEach(json => {
+    var insideLogs = [];
+    var outsideLogs = [];
 
-            // console.log('json')
-            // console.log(json.replaceAll("\'", "\""))
+    splitted.forEach(json => {
 
-            const object = JSON.parse(json.replaceAll("\'", "\""));
+        // console.log('json')
+        // console.log(json.replaceAll("\'", "\""))
 
-            if(object.name == 'inside'){
-                insideLogs.push(object)
-            }
-            if(object.name == 'outside'){
-                outsideLogs.push(object)
-            }
-        });
+        const object = JSON.parse(json.replaceAll("\'", "\""));
 
-        // var labels = insideLogs.select(logElement => logElement.date)
-        var labels = insideLogs.map(element => element.time)
-        var data1 = insideLogs.map(element => element.temp)
-        var data2 = outsideLogs.map(element => element.temp)
-
-        // console.log("labels : " + labels)
-        // console.log("data1 : " + data1)
-        // console.log("data2 : " + data2)
-
-        createChart(labels, data1, data2)
+        if(object.name == 'inside'){
+            insideLogs.push(object)
+        }
+        if(object.name == 'outside'){
+            outsideLogs.push(object)
+        }
     });
+
+    // var labels = insideLogs.select(logElement => logElement.date)
+    var labels = insideLogs.map(element => element.time)
+    var data1 = insideLogs.map(element => element.temp)
+    var data2 = outsideLogs.map(element => element.temp)
+
+    // console.log("labels : " + labels)
+    // console.log("data1 : " + data1)
+    // console.log("data2 : " + data2)
+
+    createChart(labels, data1, data2)
+
+    return outsideLogs
 }
 
 function createChart(labels, data1, data2){
@@ -140,10 +179,14 @@ function createChart(labels, data1, data2){
 }
 
 function getLatestFile(responseData){
-    return response.data.sort(
+    return responseData.sort(
         function(a, b) {
             return parseInt(b.name.substring(0, b.name.length - 4))
             - parseInt(a.name.substring(0, a.name.length - 4)) 
         }
     )[0];
+}
+
+function getMinTemp(file){
+
 }
