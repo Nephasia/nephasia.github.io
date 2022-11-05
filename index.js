@@ -1,3 +1,5 @@
+import { generateStats } from './stats.js';
+
 import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
 
 const octokit = new Octokit();
@@ -13,12 +15,32 @@ var myChart;
 
 console.log(response)
 
-generateDayLinks(response);
+await generateDayLinks(response);
+
+function generateTitleHtml(element){
+    console.log("selected : " + element.name)
+
+    var day = dateWithDashesFromElement(element)
+
+    document.getElementById("title").innerHTML = `
+        <div>
+            <p class="h3">
+                ${day}
+            </p>
+        </div>
+    `
+    // generateStats(element)
+}
 
 $(document).ready(function() {
     var latest = getLatestFile(response.data)
-    requestData(latest.name)
-
+    generateTitleHtml(latest)
+    requestData(latest.name).then(data => {
+        console.log(data);
+        prepareChart(data);
+        generateStats(data);
+    })
+    
 }, 'text');
 
 async function generateDayLinks(response){
@@ -27,27 +49,72 @@ async function generateDayLinks(response){
 
     console.log("available dates : " + response.data.length)
 
-    await response.data.forEach((element, i) => {
-        var dayName = element.name.substring(0, element.name.length - 4);
+    let responseData = await sortDatesDescending(response.data)
+
+    var latestDaysNumber = 10;
+
+    var latestDays = responseData.slice(0, latestDaysNumber);
+    var historicalDays = responseData.slice(latestDaysNumber, responseData.length);
+
+    document.getElementById("links").innerHTML += generateLatestDays(latestDays)
+    document.getElementById("links").innerHTML += "<br>"
+    document.getElementById("links").innerHTML += generateHistoricalDays(historicalDays)
+   
+    await responseData.forEach(element => {
     
-        var linksText = `<span id="${element.name}">${dayName}</span>`;
-    
-        document.getElementById("links").innerHTML += linksText + " ";
-    
-        if(i + 1 % 10 == 0) document.getElementById("links").innerHTML += "<br>"
-    
-    });
-    
-    await response.data.forEach(element => {
-    
-        document.getElementById(element.name).addEventListener("click", function(){
-            requestData(element.name);
+        document.getElementById(element.name).addEventListener("click", async function(){
+            generateTitleHtml(element);
+            var dayData = await requestData(element.name)
+            prepareChart(dayData)
         }, true);
     
     });
 }
 
-function requestData(fileName){
+function generateLatestDays(dataItems){
+
+    var htmlText = '';
+    var dateStyle = 'font-size: 26px;';
+
+    dataItems.forEach((element, i) => {
+        var dayName = dateFromElement(element);
+    
+        htmlText += `<span id="${element.name}" style="${dateStyle}">
+            <div class='mx-2 my-2' style='display: inline'>
+                ${dayName} 
+            </div>
+        </span>`;
+
+        htmlText += ` `;
+    
+        if(i + 1 % 10 == 0) {
+            htmlText += "<br>"
+        }
+    
+    });
+
+    return htmlText;
+}
+
+function generateHistoricalDays(dataItems){
+    var htmlText = '';
+
+    dataItems.forEach((element, i) => {
+        var dayName = dateFromElement(element);
+    
+        htmlText += `<span id="${element.name}">${dayName}</span>`;
+        htmlText += ` `;
+    
+        if(i + 1 % 10 == 0) {
+            htmlText += "<br>"
+        }
+    
+    });
+
+    return htmlText;
+}
+
+async function requestData(fileName){
 
     if(typeof myChart !== "undefined"){
         myChart.destroy()
@@ -55,39 +122,45 @@ function requestData(fileName){
 
     var url = repoUrl + fileName;
     
-    $.get(url, function(data) { 
+    var responseData;
 
-        var splitted = data.split('\n').map(line => (line.charAt(line.length - 1) == "," ? line.slice(0, -1) : line ))
-
-        var insideLogs = [];
-        var outsideLogs = [];
-
-        splitted.forEach(json => {
-
-            // console.log('json')
-            // console.log(json.replaceAll("\'", "\""))
-
-            const object = JSON.parse(json.replaceAll("\'", "\""));
-
-            if(object.name == 'inside'){
-                insideLogs.push(object)
-            }
-            if(object.name == 'outside'){
-                outsideLogs.push(object)
-            }
-        });
-
-        // var labels = insideLogs.select(logElement => logElement.date)
-        var labels = insideLogs.map(element => element.time)
-        var data1 = insideLogs.map(element => element.temp)
-        var data2 = outsideLogs.map(element => element.temp)
-
-        // console.log("labels : " + labels)
-        // console.log("data1 : " + data1)
-        // console.log("data2 : " + data2)
-
-        createChart(labels, data1, data2)
+    await $.get(url, function(data) { 
+        responseData = data
     });
+
+    console.log(responseData);
+
+    return responseData
+}
+
+function prepareChart(dayData){
+    var splitted = dayData.split('\n')
+        .map(line => (line.charAt(line.length - 1) == "," ? line.slice(0, -1) : line ));
+
+    var insideLogs = [];
+    var outsideLogs = [];
+
+    splitted.forEach(json => {
+
+        const object = JSON.parse(json.replaceAll("\'", "\""));
+
+        if(object.name == 'inside'){
+            insideLogs.push(object)
+        }
+        if(object.name == 'outside'){
+            outsideLogs.push(object)
+        }
+    });
+
+    var labels = insideLogs.map(element => element.time)
+    var insideData = insideLogs.map(element => element.temp)
+    var outsideData = outsideLogs.map(element => element.temp)
+
+    // console.log("labels : " + labels)
+    // console.log("insideData : " + insideData)
+    // console.log("data2 : " + data2)
+
+    createChart(labels, insideData, outsideData)
 }
 
 function createChart(labels, data1, data2){
@@ -140,10 +213,29 @@ function createChart(labels, data1, data2){
 }
 
 function getLatestFile(responseData){
-    return response.data.sort(
+    return sortDatesDescending(responseData)[0];
+}
+
+function sortDatesDescending(responseData){
+    return responseData.sort(
         function(a, b) {
             return parseInt(b.name.substring(0, b.name.length - 4))
             - parseInt(a.name.substring(0, a.name.length - 4)) 
         }
-    )[0];
+    );
 }
+
+function dateFromElement(element){
+    return element.name.substring(0, element.name.length - 4)
+}
+
+function dateWithDashesFromElement(element){
+    return element.name.substring(0, 4)
+        + "-"
+        + element.name.substring(4, 6)
+        + "-"
+        + element.name.substring(6, 8)
+    ;
+}
+
+
