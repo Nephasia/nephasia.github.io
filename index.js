@@ -33,6 +33,9 @@ function generateTitleHtml(element){
 }
 
 $(document).ready(function() {
+
+    createInformations()
+
     var latest = getLatestFile(response.data)
     generateTitleHtml(latest)
     requestData(latest.name).then(data => {
@@ -40,12 +43,51 @@ $(document).ready(function() {
         prepareChart(data);
         generateStats(data);
     })
-    
 }, 'text');
+
+function changeDate(element){
+    requestData(element.name).then(response => {
+        let temperatureArray = response
+        console.log(response)
+        refreshInformations(element, temperatureArray)
+    })
+}
+
+async function createInformations(){
+    let div = document.createElement('div');
+    // div.classList.add('');
+    div.setAttribute("id", "fileName")
+    div.style.fontSize = "26px"
+    let text = document.createTextNode("");
+    div.appendChild(text);
+    document.getElementById("overChart").appendChild(div)
+}
+
+async function refreshInformations(viewedFile, tempArray){
+
+    let overChart = document.getElementById("overChart");
+
+    for (let i = 0; i < overChart.children.length; i++) {
+        
+        console.log(overChart.children[i].id)
+        if(overChart.children[i].id != null){
+            let textDiv = overChart.children[i]
+            textDiv.textContent = viewedFile.name.substring(0, 8)
+        }
+    }
+
+    // let max = Object.keys(tempArray).reduce(
+    //     (a,b) => tempArray[a]['temp'] > tempArray[b]['temp']?a:b
+    // )
+
+    // console.log(max)
+
+    console.log(tempArray)
+}
 
 async function generateDayLinks(response){
 
-    document.getElementById("links").innerHTML += "dates : <br>"
+    document.getElementById("links").innerHTML += "dates : <br> "
 
     console.log("available dates : " + response.data.length)
 
