@@ -15,19 +15,19 @@ export function generateStats(dayData){
 
     var temperaturesArray = outsideLogs.map(element => element.temp)
 
-    const minTemp = Math.min(...temperaturesArray)
-    const maxTemp = Math.max(...temperaturesArray)
+    const minTemp = Math.min(...temperaturesArray).toFixed(1);
+    const maxTemp = Math.max(...temperaturesArray).toFixed(1);
 
     var statsHtml = `
     <div>
         <div class="row">
             <div class="col">
-                <p class='h5'>Min</p>
                 <p class='h5'>Max</p>
+                <p class='h5'>Min</p>
             </div>
             <div class="col">
-                <p class='h5'>${minTemp} °C</p>
                 <p class='h5'>${maxTemp} °C</p>
+                <p class='h5'>${minTemp} °C</p>
             </div>
         </div>
         <div class="mb-3"></div>

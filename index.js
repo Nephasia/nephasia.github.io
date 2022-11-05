@@ -34,8 +34,6 @@ function generateTitleHtml(element){
 
 $(document).ready(function() {
 
-    createInformations()
-
     var latest = getLatestFile(response.data)
     generateTitleHtml(latest)
     requestData(latest.name).then(data => {
@@ -44,46 +42,6 @@ $(document).ready(function() {
         generateStats(data);
     })
 }, 'text');
-
-function changeDate(element){
-    requestData(element.name).then(response => {
-        let temperatureArray = response
-        console.log(response)
-        refreshInformations(element, temperatureArray)
-    })
-}
-
-async function createInformations(){
-    let div = document.createElement('div');
-    // div.classList.add('');
-    div.setAttribute("id", "fileName")
-    div.style.fontSize = "26px"
-    let text = document.createTextNode("");
-    div.appendChild(text);
-    document.getElementById("overChart").appendChild(div)
-}
-
-async function refreshInformations(viewedFile, tempArray){
-
-    let overChart = document.getElementById("overChart");
-
-    for (let i = 0; i < overChart.children.length; i++) {
-        
-        console.log(overChart.children[i].id)
-        if(overChart.children[i].id != null){
-            let textDiv = overChart.children[i]
-            textDiv.textContent = viewedFile.name.substring(0, 8)
-        }
-    }
-
-    // let max = Object.keys(tempArray).reduce(
-    //     (a,b) => tempArray[a]['temp'] > tempArray[b]['temp']?a:b
-    // )
-
-    // console.log(max)
-
-    console.log(tempArray)
-}
 
 async function generateDayLinks(response){
 
@@ -106,8 +64,9 @@ async function generateDayLinks(response){
     
         document.getElementById(element.name).addEventListener("click", async function(){
             generateTitleHtml(element);
-            var dayData = await requestData(element.name)
-            prepareChart(dayData)
+            var dayData = await requestData(element.name);
+            prepareChart(dayData);
+            generateStats(dayData);
         }, true);
     
     });
@@ -116,12 +75,21 @@ async function generateDayLinks(response){
 function generateLatestDays(dataItems){
 
     var htmlText = '';
-    var dateStyle = 'font-size: 26px;';
+    var dateStyle = 'font-size: 25px;';
 
     dataItems.forEach((element, i) => {
         var dayName = dateFromElement(element);
     
-        htmlText += `<span id="${element.name}" style="${dateStyle}">
+        var className = '';
+
+        if (isSunday(dayName)){
+            className += 'text-danger ';
+        }
+        else if(isSaturday(dayName)){
+            className += 'text-secondary '
+        }
+
+        htmlText += `<span id="${element.name}" style="${dateStyle}" class="${className}">
             <div class='mx-2 my-2' style='display: inline'>
                 ${dayName} 
             </div>
@@ -144,7 +112,16 @@ function generateHistoricalDays(dataItems){
     dataItems.forEach((element, i) => {
         var dayName = dateFromElement(element);
     
-        htmlText += `<span id="${element.name}">${dayName}</span>`;
+        var className = ''
+
+        if (isSunday(dayName)){
+            className += 'text-danger '
+        }
+        else if(isSaturday(dayName)){
+            className += 'text-secondary '
+        }
+
+        htmlText += `<span id="${element.name}" class="${className}">${dayName}</span>`;
         htmlText += ` `;
     
         if(i + 1 % 10 == 0) {
@@ -272,12 +249,27 @@ function dateFromElement(element){
 }
 
 function dateWithDashesFromElement(element){
-    return element.name.substring(0, 4)
+    return dateWithDashesFromDate(element.name);
+}
+
+function dateWithDashesFromDate(dateString){
+    return dateString.substring(0, 4)
         + "-"
-        + element.name.substring(4, 6)
+        + dateString.substring(4, 6)
         + "-"
-        + element.name.substring(6, 8)
+        + dateString.substring(6, 8)
     ;
 }
 
+function isSunday(date){
+    var myDate = new Date(dateWithDashesFromDate(date))
+    if(myDate.getDay() == 0) return true;
+    else return false;
+}
+
+function isSaturday(date){
+    var myDate = new Date(dateWithDashesFromDate(date))
+    if(myDate.getDay() == 6) return true;
+    else return false;
+}
 
