@@ -1,4 +1,12 @@
 import { generateStats } from './stats.js';
+import { generateTitleHtml } from './title.js';
+import { 
+    dateFromElement, 
+    dateWithDashesFromElement, 
+    dateWithDashesFromDate, 
+    isSunday, 
+    isSaturday 
+} from './dateOperations.js';
 
 import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
 
@@ -16,21 +24,6 @@ var myChart;
 console.log(response)
 
 await generateDayLinks(response);
-
-function generateTitleHtml(element){
-    console.log("selected : " + element.name)
-
-    var day = dateWithDashesFromElement(element)
-
-    document.getElementById("title").innerHTML = `
-        <div>
-            <p class="h3">
-                ${day}
-            </p>
-        </div>
-    `
-    // generateStats(element)
-}
 
 $(document).ready(function() {
 
@@ -243,33 +236,3 @@ function sortDatesDescending(responseData){
         }
     );
 }
-
-function dateFromElement(element){
-    return element.name.substring(0, element.name.length - 4)
-}
-
-function dateWithDashesFromElement(element){
-    return dateWithDashesFromDate(element.name);
-}
-
-function dateWithDashesFromDate(dateString){
-    return dateString.substring(0, 4)
-        + "-"
-        + dateString.substring(4, 6)
-        + "-"
-        + dateString.substring(6, 8)
-    ;
-}
-
-function isSunday(date){
-    var myDate = new Date(dateWithDashesFromDate(date))
-    if(myDate.getDay() == 0) return true;
-    else return false;
-}
-
-function isSaturday(date){
-    var myDate = new Date(dateWithDashesFromDate(date))
-    if(myDate.getDay() == 6) return true;
-    else return false;
-}
-

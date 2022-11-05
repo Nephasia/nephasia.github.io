@@ -22,12 +22,12 @@ export function generateStats(dayData){
     <div>
         <div class="row">
             <div class="col">
-                <p class='h5'>Max</p>
-                <p class='h5'>Min</p>
+                <p class='h2'>Max</p>
+                <p class='h2'>Min</p>
             </div>
             <div class="col">
-                <p class='h5'>${maxTemp} °C</p>
-                <p class='h5'>${minTemp} °C</p>
+                <p class='h2'>${maxTemp} °C</p>
+                <p class='h2'>${minTemp} °C</p>
             </div>
         </div>
         <div class="mb-3"></div>
