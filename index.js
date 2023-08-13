@@ -8,7 +8,8 @@ import {
     isSaturday 
 } from './dateOperations.js';
 
-import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+// import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+import { Octokit } from "https://esm.sh/octokit@2";
 
 const octokit = new Octokit();
 
