@@ -33,7 +33,7 @@ $(document).ready(function() {
     generateTitleHtml(latestFromResponseData, response.data, repoUrl)
     requestData(latestFromResponseData.name, repoUrl).then(data => {
         prepareChart(data);
-        generateStats(data);
+        generateStats(data, true);
     })
 }, 'text');
 

@@ -1,4 +1,4 @@
-export function generateStats(dayData){
+export function generateStats(dayData, isToday=false){
     
     var splitted = dayData.split('\n')
         .map(line => (line.charAt(line.length - 1) == "," ? line.slice(0, -1) : line ));
@@ -17,22 +17,41 @@ export function generateStats(dayData){
 
     const minTemp = Math.min(...temperaturesArray).toFixed(1);
     const maxTemp = Math.max(...temperaturesArray).toFixed(1);
+    
 
-    const tempNow = outsideLogs[outsideLogs.length - 1].temp.toFixed(1);
-
+    var readTime;
+    var tempNow;
+    if(isToday){
+        readTime = outsideLogs[outsideLogs.length - 1].time;
+        tempNow = outsideLogs[outsideLogs.length - 1].temp.toFixed(1);
+    }
+    
     var statsHtml = `
     <div>
         <div class="row">
+    `
+
+    statsHtml += `
             <div class="col">
-                <p class='h2'>Teraz</p>
-                <p class='h2'>Max</p>
-                <p class='h2'>Min</p>
+                <p class='h5 text-primary'>Min</p>
+                <p class='h2 text-primary'>${minTemp}&nbsp;°C</p>
             </div>
             <div class="col">
-                <p class='h2'>${tempNow} °C</p>
-                <p class='h2'>${maxTemp} °C</p>
-                <p class='h2'>${minTemp} °C</p>
+                <p class='h5 text-danger'>Max</p>
+                <p class='h2 text-danger'>${maxTemp}&nbsp;°C</p>
             </div>
+    `
+
+    if(isToday){
+        statsHtml += `
+            <div class="col">
+                <p class='h5 text-right'>${readTime}</p>            
+                <p class='h1 text-right'>${tempNow}&nbsp;°C</p>
+            </div>
+        `
+    }
+
+    statsHtml += `
         </div>
         <div class="mb-3"></div>
     </div>
