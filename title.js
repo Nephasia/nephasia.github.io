@@ -24,7 +24,7 @@ export function generateTitleHtml(element, responseData, repoUrl){
     recreateNode(document.getElementById("previousDate"))
     document.getElementById("previousDate").addEventListener("click", async function(){
         const previousElement = getRelativeToElement(element, responseData, -1)
-        generateTitleHtml(previousElement, responseData);
+        generateTitleHtml(previousElement, responseData, repoUrl);
         var dayData = await requestData(previousElement.name, repoUrl);
         prepareChart(dayData);
         generateStats(dayData);
@@ -34,7 +34,7 @@ export function generateTitleHtml(element, responseData, repoUrl){
     recreateNode(document.getElementById("nextDate"))
     document.getElementById("nextDate").addEventListener("click", async function(){
         const nextElement = getRelativeToElement(element, responseData, 1)
-        generateTitleHtml(nextElement, responseData);
+        generateTitleHtml(nextElement, responseData, repoUrl);
         var dayData = await requestData(nextElement.name, repoUrl);
         prepareChart(dayData);
         generateStats(dayData);
